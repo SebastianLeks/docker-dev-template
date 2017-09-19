@@ -1,6 +1,6 @@
 
 # Overview
-Docker development tools template.
+Docker development tools template container.
 
 Includes recent versions of:
 - Node (latest, 8.5)
@@ -20,6 +20,9 @@ make build
 make run
 ```
 
+# Container Directory Mappings
+
+
 
 # Standalone Docker Commands
 ## Run node app
@@ -33,7 +36,7 @@ docker exec -i -t [container id]  /bin/bash
 
 
 # Ngrok
-## INSTALL ngrok KEY
+## Install ngrok KEY
 ```bash
 ngrok authtoken abcdefTOKEN...
 ```
@@ -64,3 +67,7 @@ export AWS_DEFAULT_PROFILE=my-profile1
 [Uses official Node image](https://github.com/nodejs/docker-node)
 
 [Markdown cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+
+[Node on Docker notes](https://webapplog.com/node-docker/)
+
+[Docker commands cheatsheet](https://gist.github.com/bahmutov/1003fa86980dda147ff6)
