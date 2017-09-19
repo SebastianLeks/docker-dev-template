@@ -1,9 +1,12 @@
 
 # Overview
-Docker dev template, includes:
-- Node (latest)
+Docker development tools template.
+
+Includes recent versions of:
+- Node (latest, 8.5)
 - Python 2.7
 - ngrok
+- Postgres Client 9.5
 - AWS cli
 
 # Getting Started
