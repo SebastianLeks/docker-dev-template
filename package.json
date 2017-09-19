@@ -1,0 +1,13 @@
+{
+  "name": "node-app-template",
+  "version": "0.0.1",
+  "description": "Node.js app Template",
+  "author": "First Last <first.last@example.com>",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js"
+  },
+  "dependencies": {
+    "underscore": "1.8.3"
+  }
+}
