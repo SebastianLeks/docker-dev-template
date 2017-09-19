@@ -71,3 +71,6 @@ export AWS_DEFAULT_PROFILE=my-profile1
 [Node on Docker notes](https://webapplog.com/node-docker/)
 
 [Docker commands cheatsheet](https://gist.github.com/bahmutov/1003fa86980dda147ff6)
+
+[JSON on command line](https://stedolan.github.io/jq/)
+

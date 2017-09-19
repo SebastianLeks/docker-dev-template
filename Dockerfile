@@ -12,18 +12,21 @@ RUN echo "America/Chicago" > /etc/timezone \
 RUN apt-get update
 
 # UPDATES & installs
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends  \
-                 apt-utils
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq              \
-             python                               \
-             python-setuptools                    \
-             build-essential libssl-dev libffi-dev \
-             python-dev                            \
-             less                                  \
-             man                                   \
+RUN DEBIAN_FRONTEND=noninteractive               \
+    apt-get install -yq --no-install-recommends  \
+             apt-utils
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -yq            \
+             python                                 \
+             python-setuptools                      \
+             build-essential libssl-dev libffi-dev  \
+             python-dev                             \
+             less                                   \
+             man                                    \
              wget                                   \
              nano                                   \
-             unzip                                 \
+             unzip                                  \
+             jq                                     \
              groff                               && \
              apt-get clean                       && \
              rm -rf /var/lib/apt/lists/*
@@ -38,7 +41,7 @@ RUN npm install --global nodemon
 ENV PYTHONIOENCODING=UTF-8
 
 # INSTALL AWS CLI
-RUN pip install --upgrade --user awscli                              && \
+RUN pip install --upgrade --user awscli                                      && \
     echo "complete -C '/root/.local/bin/aws_completer' aws" >> /root/.bashrc && \
     echo "export PATH=/root/.local/bin:$PATH" >> /root/.bashrc
 
@@ -51,7 +54,7 @@ RUN curl https://raw.githubusercontent.com/wallix/awless/master/getawless.sh | b
     echo 'source <(awless completion bash)' >> ~/.bashrc
 
 # INSTALL aws limitchecker https://awslimitchecker.readthedocs.io
-RUN pip install awslimitchecker                    && \
+RUN pip install awslimitchecker                       && \
 # END of module installation - display versions
     echo "--- Finished INSTALLATION and UPDATES ---"  && \
     echo "python (req. 2.7.x): " $(python --version)  && \
