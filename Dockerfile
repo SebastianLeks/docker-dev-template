@@ -68,8 +68,7 @@ WORKDIR /aws-wrkspace
 
 # AWS keys mapping to local directory ./aws-wrkspace/aws-keys
 RUN mkdir /root/.aws  && \
-    ln -s /aws-wrkspace/aws-keys/.aws/credentials /root/.aws/credentials  && \
-    ln -s /aws-wrkspace/aws-keys/.aws/config /root/.aws/config
+    ln -s /aws-wrkspace/.aws /root/.aws
 # && export AWS_DEFAULT_PROFILE=xyz-profile-name
 
 # MIGRATIONS
