@@ -66,9 +66,8 @@ RUN pip install awslimitchecker                       && \
 
 WORKDIR /aws-wrkspace
 
-# AWS keys mapping to local directory ./aws-wrkspace/aws-keys
-RUN mkdir /root/.aws  && \
-    ln -s /aws-wrkspace/.aws /root/.aws
+# AWS configuration mapping will be stored in local directory ./aws-wrkspace/.aws
+RUN ln -s /aws-wrkspace/.aws /root/.aws
 # && export AWS_DEFAULT_PROFILE=xyz-profile-name
 
 # MIGRATIONS
@@ -81,7 +80,7 @@ RUN apt-get purge postgr* \
  && apt-get install -y postgresql-client-9.5
 
 
-RUN echo "echo \"run aws cli command to configure keys\"" >> /root/.bashrc
+RUN echo "echo \"run aws configure command to configure keys\"" >> /root/.bashrc
 
 
 # use changes to package.json to force Docker not to use the cache
