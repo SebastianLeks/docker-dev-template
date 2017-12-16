@@ -1,7 +1,7 @@
 SHELL=/bin/bash -o pipefail
 
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-NODE_VERSION := 8.5.0
+NODE_VERSION := 9.3.0
 
 CONTAINER_WORK_DIR := "/usr/app"
 CONTAINER_NAME := my-dev-container
@@ -25,6 +25,8 @@ DOCKER_RUN_SHELL = docker run \
                         -v $(CONTAINER_WORK_DIR)/node_modules \
                         -v $(ROOT_DIR)/aws-wrkspace:/aws-wrkspace \
                         -w $(CONTAINER_WORK_DIR) \
+                        -p 8080:8080 \
+                        -p 8000:8000 \
                         $(CONTAINER_NAME) \
                         bash
 

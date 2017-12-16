@@ -3,11 +3,13 @@
 Docker development tools template container.
 
 Includes recent versions of:
-- Node (latest, 8.5)
+- Node 9.3
 - Python 2.7
-- ngrok
+- ngrok (latest stable)
 - Postgres Client 9.5
-- AWS cli
+- AWS cli (latest stable)
+- Oracle Java 8
+- Scala 2.12
 
 # Getting Started
 ## Build container
@@ -61,6 +63,26 @@ aws s3 ls --profile my-profile1
 
 ## Set default profile
 export AWS_DEFAULT_PROFILE=my-profile1
+
+# Dev cli tools
+## Homebrew
+https://brew.sh/
+## Hub
+https://github.com/github/
+## Tig
+https://github.com/jonas/tig
+## pgCli
+https://github.com/dbcli/pgcli
+## Glances
+https://nicolargo.github.io/glances/
+## HTTPIE
+https://github.com/jakubroztocil/httpie
+## JQ
+https://stedolan.github.io/jq/
+## doitlive
+https://github.com/sloria/doitlive
+
+
 
 
 # References

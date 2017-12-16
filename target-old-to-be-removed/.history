@@ -1,0 +1,10 @@
+console
+version
+exit
+help
+projects
+plugins
+about
+exit
+scala -version
+console

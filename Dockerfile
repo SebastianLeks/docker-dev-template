@@ -1,4 +1,4 @@
-FROM node:8.5.0
+FROM node:9.3.0
 
 LABEL vendor="SebastianLeks" \
       is-production="false"
@@ -7,29 +7,33 @@ LABEL vendor="SebastianLeks" \
 RUN echo "America/Chicago" > /etc/timezone \
  && dpkg-reconfigure -f noninteractive tzdata
 
-
-# update node container
+# UPDATES & base installs
+# update base os
 RUN apt-get update
 
-# UPDATES & installs
-RUN DEBIAN_FRONTEND=noninteractive               \
-    apt-get install -yq --no-install-recommends  \
+RUN DEBIAN_FRONTEND=noninteractive                  \
+    apt-get install -yq --no-install-recommends     \
              apt-utils
-RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -yq            \
+
+RUN DEBIAN_FRONTEND=noninteractive                  \
+    apt-get install -yq                             \
              python                                 \
              python-setuptools                      \
              build-essential libssl-dev libffi-dev  \
              python-dev                             \
+             libev4 libev-dev                       \
              less                                   \
              man                                    \
              wget                                   \
              nano                                   \
              unzip                                  \
              jq                                     \
-             groff                               && \
-             apt-get clean                       && \
-             rm -rf /var/lib/apt/lists/*
+             httpie                                 \
+             groff
+
+# Dev cli tools
+RUN curl -L http://bit.ly/glances | /bin/bash
+
 
 # INSTALL pip
 RUN easy_install pip
@@ -37,6 +41,7 @@ RUN easy_install pip
 # INSTALL nodemon
 RUN npm install --global nodemon
 
+# AWS
 # CONFIGURE AWS CLI needs the PYTHONIOENCODING environment varialbe to handle UTF-8 correctly:
 ENV PYTHONIOENCODING=UTF-8
 
@@ -54,9 +59,9 @@ RUN curl https://raw.githubusercontent.com/wallix/awless/master/getawless.sh | b
     echo 'source <(awless completion bash)' >> ~/.bashrc
 
 # INSTALL aws limitchecker https://awslimitchecker.readthedocs.io
-RUN pip install awslimitchecker                       && \
-# END of module installation - display versions
-    echo "--- Finished INSTALLATION and UPDATES ---"  && \
+RUN pip install awslimitchecker
+# END of module installation - versions
+RUN echo "--- Finished INSTALLATION and UPDATES ---"  && \
     echo "python (req. 2.7.x): " $(python --version)  && \
     echo "pip (req. latest): " $(pip -V)              && \
     echo "node (req. 6.9+): " $(node --version)       && \
@@ -69,18 +74,15 @@ WORKDIR /aws-wrkspace
 # AWS configuration mapping will be stored in local directory ./aws-wrkspace/.aws
 RUN ln -s /aws-wrkspace/.aws /root/.aws
 # && export AWS_DEFAULT_PROFILE=xyz-profile-name
+RUN echo "echo \"run aws configure command to configure keys\"" >> /root/.bashrc
 
-# MIGRATIONS
-# Install Postgres Client 9.5
+# INSTALL Postgres Client 9.5
 RUN apt-get purge postgr* \
  && apt-get autoremove \
  && wget -q -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list \
  && apt-get update \
  && apt-get install -y postgresql-client-9.5
-
-
-RUN echo "echo \"run aws configure command to configure keys\"" >> /root/.bashrc
 
 
 # use changes to package.json to force Docker not to use the cache
@@ -93,9 +95,6 @@ RUN mkdir -p /usr/app/
 
 #RUN cp -a /tmp/node_modules /usr/app/
 
-# Install nodemon to support development file watch
-RUN npm install --global nodemon
-
 # create non-priviledged user to run the app
 #RUN useradd --user-group --create-home --shell /bin/false app-user
 #ENV HOME=/home/app-user
@@ -103,7 +102,7 @@ RUN npm install --global nodemon
 #USER app-user
 
 
-# INSTALL ngrok KEY
+# INSTALL ngrok
 ADD https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip /ngrok.zip
 RUN set -x \
  && unzip -o /ngrok.zip -d /bin \
@@ -113,11 +112,58 @@ RUN set -x \
 # INSTALL ngrok KEY
 #RUN ngrok authtoken abcTOKEN...
 
+RUN lsb_release -a
+
+# INSTALL Java.
+RUN apt-get install -y bc && \
+    apt-get install -y software-properties-common && \
+    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee /etc/apt/sources.list.d/webupd8team-java.list && \
+    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" | tee -a /etc/apt/sources.list.d/webupd8team-java.list && \
+    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+    echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
+    apt-get update && \
+    apt-get install -yq oracle-java8-set-default
+
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
+
+## INSTALL Scala sbt
+RUN echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 && \
+    apt-get install apt-transport-https && \
+    apt-get update && \
+    apt-get install sbt && \
+    sbt about
+
+RUN wget http://www.scala-lang.org/files/archive/scala-2.12.4.deb
+
+## INSTALL Scala ammonite REPL http://ammonite.io/
+RUN curl -L -o /usr/local/bin/amm https://git.io/vdNv2 && chmod +x /usr/local/bin/amm
+# Launch with 'amm'
+
+## INSTALL Scala
+ENV SCALA_VERSION 2.12.4
+ENV SCALA_TARBALL http://www.scala-lang.org/files/archive/scala-$SCALA_VERSION.deb
+
+RUN echo "===> install Scala"                           && \
+    DEBIAN_FRONTEND=noninteractive                         \
+        apt-get install -y --force-yes libjansi-java    && \
+    curl -sSL $SCALA_TARBALL -o scala.deb               && \
+    dpkg -i scala.deb                                   && \
+    \
+    echo "===> clean up..."                             && \
+    rm -f *.deb
+
+## CLEANUP
+RUN apt-get clean                                       && \
+    rm -rf /var/lib/apt/lists/*
 
 # Bundle app source
 #COPY . /usr/src/app
 
-EXPOSE 8080 5858 4040 8443
+EXPOSE 8080 5858 4040 8443 9001
 
 
 #CMD [ "npm", "start" ]
