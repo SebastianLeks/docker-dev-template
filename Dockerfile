@@ -1,11 +1,9 @@
-FROM node:8.9.4
+FROM ubuntu:16.04
 
 LABEL vendor="SebastianLeks" \
       is-production="false"
 
-# Set timezone
-RUN echo "America/Chicago" > /etc/timezone \
- && dpkg-reconfigure -f noninteractive tzdata
+
 
 # UPDATES & base installs
 # update base os
@@ -29,11 +27,28 @@ RUN DEBIAN_FRONTEND=noninteractive                  \
              unzip                                  \
              jq                                     \
              httpie                                 \
-             groff
+             groff                                  \
+             tzdata                                 \
+             curl                                   \
+             htop
+
+# Set timezone
+RUN echo "America/Chicago" > /etc/timezone \
+ && dpkg-reconfigure -f noninteractive tzdata
+
+# NVM
+RUN curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh -o install_nvm.sh && \
+    bash install_nvm.sh
+ENV NVM_DIR=/root/.nvm
+
+# Node
+RUN . $HOME/.nvm/nvm.sh && \
+    nvm install 6.10.3 && \
+    nvm install 8.9.4 && \
+    nvm use 8.9.4
 
 # Dev cli tools
 RUN curl -L http://bit.ly/glances | /bin/bash
-
 
 # INSTALL pip
 RUN easy_install pip
