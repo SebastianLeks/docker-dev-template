@@ -1,4 +1,4 @@
-FROM node:9.3.0
+FROM node:8.9.4
 
 LABEL vendor="SebastianLeks" \
       is-production="false"

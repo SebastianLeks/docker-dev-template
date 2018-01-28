@@ -1,7 +1,7 @@
 SHELL=/bin/bash -o pipefail
 
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-NODE_VERSION := 9.3.0
+NODE_VERSION := 8.9.4
 
 CONTAINER_WORK_DIR := "/usr/app"
 CONTAINER_NAME := my-dev-container

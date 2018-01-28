@@ -3,7 +3,7 @@
 Docker development tools template container.
 
 Includes recent versions of:
-- Node 9.3
+- Node 8.9.4
 - Python 2.7
 - ngrok (latest stable)
 - Postgres Client 9.5
