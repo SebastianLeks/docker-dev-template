@@ -8,6 +8,12 @@
     "start": "node serve.js"
   },
   "dependencies": {
-    "underscore": "1.8.3"
+    "qs": "^6.5.1",
+    "underscore": "1.8.3",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.27",
+    "serverless-offline": "^3.18.0"
   }
 }

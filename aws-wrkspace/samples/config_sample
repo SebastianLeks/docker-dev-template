@@ -1,0 +1,11 @@
+[profile DEV]
+output = json
+region = us-east-2
+
+[profile PROD]
+output = json
+region = us-east-1
+
+[default]
+output = json
+region = placeholder-us-east-ABC
