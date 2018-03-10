@@ -60,9 +60,8 @@ RUN echo "--- Finished INSTALLATION and UPDATES ---"  && \
     echo "python (req. 2.7.x): " $(python --version)  && \
     echo "pip (req. latest): " $(pip -V)              && \
     echo "node (req. 6.9+): " $(node --version)       && \
-    echo "npm: " $(npm --version)                     # && \
-    #echo "SAWS: " $(saws --version)                   && \
-    #echo "AWS CLI: " $(aws --version)
+    echo "npm: " $(npm --version)                     && \
+    echo "AWS CLI: " $(aws --version)
 
 
 # AWS configuration mapping will be stored in local directory ./aws-wrkspace/.aws
