@@ -5,6 +5,8 @@ NODE_VERSION := 8.10.0
 
 CONTAINER_WORK_DIR := "/usr/projects"
 CONTAINER_NAME := my-dev-container
+AWS_WORKSPACE_DIR := "../aws-wrkspace"
+PROJECTS_DIR := "../projects"
 
 
 
@@ -21,8 +23,8 @@ DOCKER_RUN_NODE = docker run \
 DOCKER_RUN_SHELL = docker run \
                         -it --rm \
                         --name my_running_shell \
-                        -v $(ROOT_DIR)/../aws-wrkspace:/aws-wrkspace \
-                        -v $(ROOT_DIR)/projects:$(CONTAINER_WORK_DIR) \
+                        -v $(ROOT_DIR)/$(AWS_WORKSPACE_DIR):/aws-wrkspace \
+                        -v $(ROOT_DIR)/$(PROJECTS_DIR):$(CONTAINER_WORK_DIR) \
                         -w $(CONTAINER_WORK_DIR) \
                         -p 8080:8080 \
                         -p 8000:8000 \
