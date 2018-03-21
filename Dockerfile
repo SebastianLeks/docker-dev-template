@@ -23,6 +23,7 @@ RUN apt-get update                              && \
              unzip                                  \
              jq                                     \
              httpie                                 \
+             htop                                   \
              groff
 
 
