@@ -21,8 +21,7 @@ DOCKER_RUN_NODE = docker run \
 			   $(IMAGE)
 
 # Docker run script
-# Note: volume mapping sequence matters:
-#       mapping node_modules last to prevent override
+# Note: volume mapping sequence matters
 DOCKER_RUN_SHELL = docker run \
                         -it --rm \
                         --name my_running_shell \
