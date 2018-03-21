@@ -22,8 +22,14 @@ make build
 make run
 ```
 
-# Container Directory Mappings
+## Run container
+```bash
+docker run -ti --name dev-container sebastianleks/dev-template:1.0.2 bash
+```
 
+# Container Directory Mappings
+AWS_WORKSPACE_DIR := "../aws-wrkspace"
+PROJECTS_DIR := "../projects"
 
 
 # Standalone Docker Commands

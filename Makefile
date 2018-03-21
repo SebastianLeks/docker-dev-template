@@ -3,11 +3,14 @@ SHELL=/bin/bash -o pipefail
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 NODE_VERSION := 8.10.0
 
-CONTAINER_WORK_DIR := "/usr/projects"
-CONTAINER_NAME := my-dev-container
+IMAGE_NAME := sebastianleks/dev-template
+IMAGE_TAG := 1.0.2
+IMAGE := $(IMAGE_NAME):$(IMAGE_TAG)
+
 AWS_WORKSPACE_DIR := "../aws-wrkspace"
 PROJECTS_DIR := "../projects"
 
+CONTAINER_WORK_DIR := "/usr/projects"
 
 
 DOCKER_RUN_NODE = docker run \
@@ -15,7 +18,7 @@ DOCKER_RUN_NODE = docker run \
 			   -m "300M" --memory-swap "1G" \
 			   -w $(CONTAINER_WORK_DIR) \
 			   --name "my_running_node_app" \
-			   $(CONTAINER_NAME)
+			   $(IMAGE)
 
 # Docker run script
 # Note: volume mapping sequence matters:
@@ -29,11 +32,11 @@ DOCKER_RUN_SHELL = docker run \
                         -p 8080:8080 \
                         -p 8000:8000 \
                         -p 3000:3000 \
-                        $(CONTAINER_NAME) \
+                        $(IMAGE) \
                         bash
 
 DOCKER_BUILD = docker build \
-                -t $(CONTAINER_NAME) .
+                -t $(IMAGE) .
 
 define app-run
 	$(DOCKER_RUN_NODE) npm start
