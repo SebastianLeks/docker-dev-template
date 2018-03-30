@@ -24,7 +24,7 @@ make run
 
 ## Run container
 ```bash
-docker run -ti --name dev-container sebastianleks/dev-template:1.0.2 bash
+docker run -ti --name dev-container sebastianleks/dev-template:latest bash
 ```
 
 # Container Directory Mappings
