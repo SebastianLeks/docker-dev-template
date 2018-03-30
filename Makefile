@@ -4,7 +4,7 @@ ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 NODE_VERSION := 8.10.0
 
 IMAGE_NAME := sebastianleks/dev-template
-IMAGE_TAG := 1.0.2
+IMAGE_TAG := latest
 IMAGE := $(IMAGE_NAME):$(IMAGE_TAG)
 
 AWS_WORKSPACE_DIR := "../aws-wrkspace"
