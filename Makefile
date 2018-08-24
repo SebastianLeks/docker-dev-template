@@ -7,10 +7,10 @@ IMAGE_NAME := sebastianleks/dev-template
 IMAGE_TAG := latest
 IMAGE := $(IMAGE_NAME):$(IMAGE_TAG)
 
-AWS_WORKSPACE_DIR := "../aws-wrkspace"
-PROJECTS_DIR := "../projects"
+AWS_WORKSPACE_DIR := ../aws-wrkspace/synapse
+PROJECTS_DIR := ../projects
 
-CONTAINER_WORK_DIR := "/usr/projects"
+CONTAINER_WORK_DIR := /usr/projects
 
 
 DOCKER_RUN_NODE = docker run \
@@ -28,9 +28,9 @@ DOCKER_RUN_SHELL = docker run \
                         -v $(ROOT_DIR)/$(AWS_WORKSPACE_DIR):/aws-wrkspace \
                         -v $(ROOT_DIR)/$(PROJECTS_DIR):$(CONTAINER_WORK_DIR) \
                         -w $(CONTAINER_WORK_DIR) \
-                        -p 8080:8080 \
-                        -p 8000:8000 \
-                        -p 3000:3000 \
+                        -p 8383:8080 \
+                        -p 8003:8000 \
+                        -p 3003:3000 \
                         $(IMAGE) \
                         bash
 

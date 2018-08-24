@@ -1,16 +1,14 @@
-FROM node:8.10.0
+FROM node:8.11.4
 
 LABEL vendor="SebastianLeks" \
       is-production="false"
 
 
 # UPDATES & basic tools
-RUN apt-get update                              && \
+RUN apt-get update                               && \
     DEBIAN_FRONTEND=noninteractive                  \
     apt-get install -yq --no-install-recommends     \
-             apt-utils                          && \
-    DEBIAN_FRONTEND=noninteractive                  \
-    apt-get install -yq                             \
+             apt-utils                              \
              python                                 \
              python-setuptools                      \
              build-essential libssl-dev libffi-dev  \
@@ -77,7 +75,9 @@ RUN apt-get clean                                    && \
     rm -rf /var/lib/apt/lists/*
 
 # SERVERLESS framework
-RUN npm install -g serverless''
+# fix for 'serverless update check failed': https://github.com/serverless/serverless/issues/4319
+RUN npm install -g try-thread-sleep && \
+    npm install -g serverless --ignore-scripts spawn-sync
 
 # Postgres Client (9.5)
 RUN apt-get purge postgr* \
