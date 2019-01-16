@@ -7,7 +7,7 @@ IMAGE_NAME := sebastianleks/dev-template
 IMAGE_TAG := latest
 IMAGE := $(IMAGE_NAME):$(IMAGE_TAG)
 
-AWS_WORKSPACE_DIR := ../aws-wrkspace/synapse
+AWS_WORKSPACE_DIR := ../aws-wrkspace/all
 PROJECTS_DIR := ../projects
 
 CONTAINER_WORK_DIR := /usr/projects
