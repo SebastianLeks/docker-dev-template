@@ -7,7 +7,7 @@ IMAGE_NAME := sebastianleks/dev-template
 IMAGE_TAG := latest
 IMAGE := $(IMAGE_NAME):$(IMAGE_TAG)
 
-AWS_WORKSPACE_DIR := ../aws-wrkspace/synapse
+AWS_WORKSPACE_DIR := ../aws-wrkspace/all
 PROJECTS_DIR := ../projects
 
 CONTAINER_WORK_DIR := /usr/projects
@@ -32,7 +32,7 @@ DOCKER_RUN_SHELL = docker run \
                         -p 8003:8000 \
                         -p 3003:3000 \
                         $(IMAGE) \
-                        bash
+                        zsh
 
 DOCKER_BUILD = docker build \
                 -t $(IMAGE) .
